@@ -58,7 +58,9 @@ with torch.no_grad():
         out = model(x_test)
         # Metrics
         out_denormalized_3 = out.detach().cpu().numpy()[:, 0:3].flatten()
+        #print(out_denormalized_3)
         target_denormalized_3 = y_test.detach().cpu().numpy()[:, 0:3].flatten()
+        #print(target_denormalized_3)
         mae_3 = masked_MAE(out_denormalized_3, target_denormalized_3)
         rmse_3 = masked_RMSE(out_denormalized_3, target_denormalized_3)
         mape_3 = masked_MAPE(out_denormalized_3, target_denormalized_3)
@@ -91,6 +93,7 @@ with torch.no_grad():
             batches_test_metrics_9['MSEs'].append(mse_9)
 
         out_denormalized_12 = out.detach().cpu().numpy()[:, 0:12].flatten()
+        print(out_denormalized_12)
         target_denormalized_12 = y_test.detach().cpu().numpy()[:, 0:12].flatten()
         mae_12 = masked_MAE(out_denormalized_12, target_denormalized_12)
         rmse_12 = masked_RMSE(out_denormalized_12, target_denormalized_12)

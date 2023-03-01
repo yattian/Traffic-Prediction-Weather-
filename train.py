@@ -201,6 +201,7 @@ def train(args, logging, train_dataloader, val_dataloader, test_dataloader):
 
             # Save model based on val loss
             if args.save:
+                print("Saving 204")
                 if epoch_val_loss == min(validation_losses):
                     torch.save({'epoch': epoch,
                                 'model_state_dict': model.state_dict(),
@@ -282,19 +283,19 @@ def main(args):
     # Save summary metrics
     logging.info(fit_delimiter('Performance Summary', 80))
     logging.info(f"Pred {args.t_pred} steps - Top 3 Val MAEs: {np.partition(validation_metrics['MAEs'], 2)[:3]}")
-    logging.info(f"Pred {args.t_pred} steps - Top 3 Val RMSEs: {np.partition(validation_metrics['RMSEs'], 2)[:3]}")
+    logging.info(f"Pred {args.t_pred} steps - Top 3 Val RMSEs: {np.partition(validation_metrics['MSEs'], 2)[:3]}")
     logging.info(f"Pred {args.t_pred} steps - Top 3 Val MAPEs: {np.partition(validation_metrics['MAPEs'], 2)[:3]}")
     logging.info(f"Pred {args.t_pred} steps - Top 3 Test MAEs: {np.partition(test_metrics['MAEs'], 2)[:3]}")
-    logging.info(f"Pred {args.t_pred} steps - Top 3 Test RMSEs: {np.partition(test_metrics['RMSEs'], 2)[:3]}")
+    logging.info(f"Pred {args.t_pred} steps - Top 3 Test RMSEs: {np.partition(test_metrics['MSEs'], 2)[:3]}")
     logging.info(f"Pred {args.t_pred} steps - Top 3 Test MAPEs: {np.partition(test_metrics['MAPEs'], 2)[:3]}")
 
     # Save detail metrics
     logging.info(fit_delimiter('Detail Metrics', 80))
     logging.info(f'Val MAEs :  {validation_metrics["MAEs"]}')
-    logging.info(f'Val RMSEs:  {validation_metrics["RMSEs"]}')
+    logging.info(f'Val RMSEs:  {validation_metrics["MSEs"]}')
     logging.info(f'Val MAPEs:  {validation_metrics["MAPEs"]}')
     logging.info(f'Test MAEs : {test_metrics["MAEs"]}')
-    logging.info(f'Test RMSEs: {test_metrics["RMSEs"]}')
+    logging.info(f'Test RMSEs: {test_metrics["MSEs"]}')
     logging.info(f'Test MAPEs: {test_metrics["MAPEs"]}')
 
 

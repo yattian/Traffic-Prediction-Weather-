@@ -56,8 +56,8 @@ class STNN_Dataset(Dataset):
 
 
 def load_data(data_path):
-    adj_mat_path = (os.path.join(data_path, r"adj_mat.npy"))
-    feature_path = (os.path.join(data_path, r"node_values.npy"))
+    adj_mat_path = (os.path.join(data_path, r"adj_mat_short.npy"))
+    feature_path = (os.path.join(data_path, r"node_values_short.npy"))
 
     A = np.load(os.path.normpath(adj_mat_path))
     X = np.load(os.path.normpath(feature_path))
@@ -273,6 +273,7 @@ def preprocess_dataset(data, t_in=12, t_out=3, num_nearby_nodes=15, keep_ratio=0
     if train:
         print('Saving train set to disk...')
         np.save(train_samples_path, np.array(train_samples))
+        print('here')
         np.save(train_targets_path, np.array(train_targets))
     if val:
         print('Saving val set to disk...')
@@ -377,6 +378,7 @@ def preprocess_datasets(data, t_in=12, t_out=3, num_nearby_nodes=15, keep_ratio=
     if train:
         print('Saving train set to disk...')
         np.save(train_samples_path, np.array(train_samples))
+        print('hi')
         np.save(train_targets_path, np.array(train_targets))
     if val:
         print('Saving val set to disk...')
