@@ -1,5 +1,5 @@
 import argparse
-
+import csv
 import numpy as np
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -12,6 +12,15 @@ if torch.cuda.is_available():
     device = torch.device('cuda')
 else:
     device = torch.device('cpu')
+
+lst_out3 = []
+lst_target3 = []
+lst_out6 = []
+lst_target6 = []
+lst_out9 = []
+lst_target9 = []
+lst_out12 = []
+lst_target12 = []
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--device', type=str, default=device, help='')
@@ -58,9 +67,11 @@ with torch.no_grad():
         out = model(x_test)
         # Metrics
         out_denormalized_3 = out.detach().cpu().numpy()[:, 0:3].flatten()
-        #print(out_denormalized_3)
+        lst_out3.append(out_denormalized_3)
+        #print("out", out_denormalized_3)
         target_denormalized_3 = y_test.detach().cpu().numpy()[:, 0:3].flatten()
-        #print(target_denormalized_3)
+        lst_target3.append(target_denormalized_3)
+        #print("target", target_denormalized_3)
         mae_3 = masked_MAE(out_denormalized_3, target_denormalized_3)
         rmse_3 = masked_RMSE(out_denormalized_3, target_denormalized_3)
         mape_3 = masked_MAPE(out_denormalized_3, target_denormalized_3)
@@ -71,7 +82,9 @@ with torch.no_grad():
             batches_test_metrics_3['MSEs'].append(mse_3)
 
         out_denormalized_6 = out.detach().cpu().numpy()[:, 0:6].flatten()
+        lst_out6.append(out_denormalized_6)
         target_denormalized_6 = y_test.detach().cpu().numpy()[:, 0:6].flatten()
+        lst_target6.append(target_denormalized_6)
         mae_6 = masked_MAE(out_denormalized_6, target_denormalized_6)
         rmse_6 = masked_RMSE(out_denormalized_6, target_denormalized_6)
         mape_6 = masked_MAPE(out_denormalized_6, target_denormalized_6)
@@ -82,7 +95,9 @@ with torch.no_grad():
             batches_test_metrics_6['MSEs'].append(mse_6)
 
         out_denormalized_9 = out.detach().cpu().numpy()[:, 0:9].flatten()
+        lst_out9.append(out_denormalized_9)
         target_denormalized_9 = y_test.detach().cpu().numpy()[:, 0:9].flatten()
+        lst_target9.append(target_denormalized_9)
         mae_9 = masked_MAE(out_denormalized_9, target_denormalized_9)
         rmse_9 = masked_RMSE(out_denormalized_9, target_denormalized_9)
         mape_9 = masked_MAPE(out_denormalized_9, target_denormalized_9)
@@ -93,8 +108,9 @@ with torch.no_grad():
             batches_test_metrics_9['MSEs'].append(mse_9)
 
         out_denormalized_12 = out.detach().cpu().numpy()[:, 0:12].flatten()
-        print(out_denormalized_12)
+        lst_out12.append(out_denormalized_12)
         target_denormalized_12 = y_test.detach().cpu().numpy()[:, 0:12].flatten()
+        lst_target12.append(target_denormalized_12)
         mae_12 = masked_MAE(out_denormalized_12, target_denormalized_12)
         rmse_12 = masked_RMSE(out_denormalized_12, target_denormalized_12)
         mape_12 = masked_MAPE(out_denormalized_12, target_denormalized_12)
@@ -127,3 +143,37 @@ print('Predict steps: 12')
 print(f"MAE=  {np.mean(batches_test_metrics_12['MAEs']):.6f}")
 print(f"RMSE= {np.sqrt(np.mean(batches_test_metrics_12['MSEs'])):.6f}")
 print(f"MAPE= {np.mean(batches_test_metrics_12['MAPEs']):.6f}")
+
+
+
+with open("predictions/lst_out3.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(lst_out3)
+
+with open("predictions/lst_target3.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(lst_target3)
+
+with open("predictions/lst_out6.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(lst_out6)
+
+with open("predictions/lst_target6.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(lst_target6)
+
+with open("predictions/lst_out9.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(lst_out9)
+
+with open("predictions/lst_target9.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(lst_target9)
+
+with open("predictions/lst_out12.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(lst_out12)
+
+with open("predictions/lst_target12.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(lst_target12)
